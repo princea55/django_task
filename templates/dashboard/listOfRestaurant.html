@@ -1,0 +1,52 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="d-flex justify-content-center">
+     
+     <!-- DataTales Example -->
+     <div class="card shadow mb-4">
+       <div class="card-header py-3">
+         <h6 class="m-0 font-weight-bold text-primary">List Of Reataurant</h6>
+       </div>
+       <div class="card-body">
+         <div class="table-responsive">
+           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+             <thead>
+                <tr>
+                    <th>Restaurant Name</th>
+                    <th>Owner Name</th>
+                    <th>City</th>
+                    <th>Franchise</th>
+                    <th>Address</th>
+                  </tr>
+             </thead>
+             <tfoot>
+               <tr>
+                 <th>Restaurant Name</th>
+                 <th>Owner Name</th>
+                 <th>City</th>
+                 <th>Franchise</th>
+                 <th>Address</th>
+               </tr>
+             </tfoot>
+             <tbody>
+                 {%for restaurant in restaurants%}
+                 <tr>
+                    <td>{{restaurant.name}}</td>
+                    <td>{{restaurant.ownerId.username}}</td>
+                    <td>{{restaurant.city}}</td>
+                    <td>{{restaurant.franchise_name}}</td>
+                    <td>{{restaurant.address}}</td>
+                    <td><button class="btn"><a class="text-decoration-none" href="{% url 'updateRestaurantDetail' restaurant.id %}">Update</a></button></td>
+                    <td><button class="btn"><a class="text-decoration-none" href="{% url 'deleteRestaurant' restaurant.id %}">Delete</a></button></td>
+                    
+                  </tr>
+                 {%endfor%}
+               
+               
+             </tbody>
+           </table>
+         </div>
+       </div>
+     </div>
+</div>
+{%endblock%}

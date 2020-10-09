@@ -1,0 +1,48 @@
+{%extends 'base.html'%}
+{%block content%}
+<div class="d-flex justify-content-center">
+     
+     <!-- DataTales Example -->
+     <div class="card shadow mb-4">
+       <div class="card-header py-3">
+         <h6 class="m-0 font-weight-bold text-primary">List Of Foods</h6>
+       </div>
+       <div class="card-body">
+         <div class="table-responsive">
+           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+             <thead>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Food Type</th>
+                    <th>Food Price</th>
+                    <th>NO of Varietys</th>
+                  </tr>
+             </thead>
+             <tfoot>
+                <tr>
+                    <th>Food Name</th>
+                    <th>Food Type</th>
+                    <th>Food Price</th>
+                    <th>NO of Varietys</th>
+                  </tr>
+             </tfoot>
+             <tbody>
+                 {%for fooditem in fooditems%}
+                 <tr>
+                    <td>{{fooditem.foodName}}</td>
+                    <td>{{fooditem.foodType}}</td>
+                    <td>{{fooditem.price}}</td>
+                    <td>{{fooditem.noOfVariety}}</td>
+                    <td><button class="btn"><a class="text-decoration-none" href="{% url 'generateInvoice' fooditem.id %}">Order Now & download invoice</a></button></td>
+                    
+                  </tr>
+                 {%endfor%}
+               
+               
+             </tbody>
+           </table>
+         </div>
+       </div>
+     </div>
+</div>
+{%endblock%}
