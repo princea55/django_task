@@ -16,6 +16,7 @@
                     <th>Food Type</th>
                     <th>Food Price</th>
                     <th>NO of Varietys</th>
+                    <th>Restaurant Name</th>
                   </tr>
              </thead>
              <tfoot>
@@ -24,6 +25,7 @@
                     <th>Food Type</th>
                     <th>Food Price</th>
                     <th>NO of Varietys</th>
+                    <th>Restaurant Name</th>
                   </tr>
              </tfoot>
              <tbody>
@@ -33,7 +35,7 @@
                     <td>{{fooditem.foodType}}</td>
                     <td>{{fooditem.price}}</td>
                     <td>{{fooditem.noOfVariety}}</td>
-                    <td><button class="btn"><a class="text-decoration-none" href="{% url 'generateInvoice' fooditem.id %}">Order Now & download invoice</a></button></td>
+                    <td>{{fooditem.restaurantId.name}}</td>
                     
                   </tr>
                  {%endfor%}

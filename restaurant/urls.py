@@ -12,4 +12,5 @@ urlpatterns = [
     path('list_foods_items', views.listFoodsItems, name='listFoodsItems'),
     path('list_Of_Orders', views.listOfOrders, name='listOfOrders'),
     path('generate_invice/<int:pk>', views.generateInvoice, name='generateInvoice'),
+    path('logout_owner', views.logoutOwner, name='logoutOwner'),
 ]
