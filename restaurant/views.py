@@ -10,35 +10,7 @@ from django.db.models import Count, Sum
 from django.db import models
 from django.db.models import Func
 from django.http import JsonResponse
-class Month(Func):
-    function = 'EXTRACT'
-    template = '%(function)s(MONTH from %(expressions)s)'
-    output_field = models.IntegerField()
 
-
-def dashboard(request):
-    max_dishes_food_id = Orders.objects.values('FoodItemId').annotate(total=Count('id')).order_by('-total')[0]
-    popularFood = FoodItems.objects.get(id = max_dishes_food_id['FoodItemId'])
-    totalOrders = Orders.objects.aggregate(total=Count('id'))
-    popularity = (max_dishes_food_id['total']*100)//totalOrders['total']
-    sales = Orders.objects.annotate(m=Month('orderDate')).values('m').annotate(total=Sum('totalBill')).order_by()
-    Dailysales = Orders.objects.values('orderDate').annotate(total=Sum('totalBill'))
-    
-    labels = []
-    data = []
-    for entry in sales:
-        labels.append(entry['m'])
-        data.append(entry['total'])
-    context = {
-        'foodName':popularFood.foodName,
-        'popularity':popularity,
-        'labels': labels,
-        'data': data,
-        'orderDate':Dailysales[0]['orderDate'],
-        'TotalDaysales':Dailysales[0]['total']
-        
-    }
-    return render(request, 'dashboard/home.html', context)
 
 def createOwner(request):
     if request.method == 'POST':
@@ -102,6 +74,35 @@ def logout(request):
         auth.logout(request)
         messages.success(request, 'You are logged out')
         return redirect('dashboard')
+
+class Month(Func):
+    function = 'EXTRACT'
+    template = '%(function)s(MONTH from %(expressions)s)'
+    output_field = models.IntegerField()
+    
+def dashboard(request):
+    max_dishes_food_id = Orders.objects.values('FoodItemId').annotate(total=Count('id')).order_by('-total')[0]
+    popularFood = FoodItems.objects.get(id = max_dishes_food_id['FoodItemId'])
+    totalOrders = Orders.objects.aggregate(total=Count('id'))
+    popularity = (max_dishes_food_id['total']*100)//totalOrders['total']
+    sales = Orders.objects.annotate(m=Month('orderDate')).values('m').annotate(total=Sum('totalBill')).order_by()
+    Dailysales = Orders.objects.values('orderDate').annotate(total=Sum('totalBill'))
+    
+    labels = []
+    data = []
+    for entry in sales:
+        labels.append(entry['m'])
+        data.append(entry['total'])
+    context = {
+        'foodName':popularFood.foodName,
+        'popularity':popularity,
+        'labels': labels,
+        'data': data,
+        'orderDate':Dailysales[0]['orderDate'],
+        'TotalDaysales':Dailysales[0]['total']
+        
+    }
+    return render(request, 'dashboard/home.html', context)
 
 def addRestaurant(request):
     if request.method == "POST":
